@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> solve(vector<vector<int>>& matrix) {
+        if (matrix.empty()) return {};
+        
+        int M = matrix.size();
+        int N = matrix[0].size();
+        vector<vector<int>> dp(M + 1, vector<int>(N + 1, 0));
+        
+        for (int r = 0; r < M; ++r) {
+            for (int c = 0; c < N; ++c) {
+                dp[r + 1][c + 1] = dp[r + 1][c] + dp[r][c + 1] - dp[r][c] + matrix[r][c];
+            }
+        }
+        
+        vector<vector<int>> result(M, vector<int>(N));
+        for (int r = 0; r < M; ++r) {
+            for (int c = 0; c < N; ++c) {
+                result[r][c] = dp[r + 1][c + 1];
+            }
+        }
+        
+        return result;
+    }
+};
