@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>& M, int k) {
+        int m = M.size();
+        int n = M[0].size();
+        const int MOD = 1e9 + 7;
+
+        // Define a memoization table
+        vector<vector<unordered_map<int, int>>> dp(m, vector<unordered_map<int, int>>(n));
+
+        // Recursive function with memoization
+        function<int(int, int, int)> dfs = [&](int x, int y, int s) -> int {
+            if (x < 0 || y < 0) return 0;
+            if (x == 0 && y == 0) return s == M[0][0];
+            if (dp[x][y].count(s)) return dp[x][y][s];
+            
+            int res = 0;
+            if (y > 0) res = (res + dfs(x, y - 1, s - M[x][y])) % MOD;
+            if (x > 0) res = (res + dfs(x - 1, y, s - M[x][y])) % MOD;
+            
+            dp[x][y][s] = res;
+            return res;
+        };
+
+        return dfs(m - 1, n - 1, k);
+    }
+};
