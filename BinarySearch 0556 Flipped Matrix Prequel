@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>& M) {
+        if (M.empty() || M[0].empty()) return 0;
+
+        int m = M.size();    // Number of rows
+        int n = M[0].size(); // Number of columns
+        
+        // Compute sums of rows
+        vector<int> rows(m, 0);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                rows[i] += M[i][j];
+            }
+        }
+        
+        // Compute sums of columns
+        vector<int> cols(n, 0);
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; ++i) {
+                cols[j] += M[i][j];
+            }
+        }
+
+        // Compute the sum of all elements
+        int total_sum = 0;
+        for (const auto& row : M) {
+            total_sum += accumulate(row.begin(), row.end(), 0);
+        }
+        
+        // Calculate upd
+        int upd = -numeric_limits<int>::max();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                upd = max(upd, n + m - 2 * rows[i] - 2 * cols[j] + 4 * M[i][j] - 2);
+            }
+        }
+
+        return total_sum + upd;
+    }
+};
