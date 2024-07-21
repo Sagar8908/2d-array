@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>& M) {
+        if (M.empty() || M[0].empty()) return -1;
+        
+        int m = M.size();
+        int n = M[0].size();
+        int r = 0, c = n - 1;
+        int ans = -1;
+
+        while (r < m && c >= 0) {
+            if (M[r][c] == 1) {
+                ans = c;
+                --c;
+            } else {
+                ++r;
+            }
+        }
+
+        return ans;
+    }
+};
