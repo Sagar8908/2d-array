@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int countLessEqual(vector<vector<int>>& M, int x) {
+        int count = 0;
+        int n = M.size();
+        int m = M[0].size();
+        int row = n - 1;
+        int col = 0;
+        
+        while (row >= 0 && col < m) {
+            if (M[row][col] <= x) {
+                count += (row + 1);
+                ++col;
+            } else {
+                --row;
+            }
+        }
+        
+        return count;
+    }
+    
+    int solve(vector<vector<int>>& M, int k) {
+        int n = M.size();
+        int m = M[0].size();
+        
+        int beg = M[0][0] - 1;
+        int end = M[n - 1][m - 1] + 1;
+        
+        while (beg + 1 < end) {
+            int mid = (beg + end) / 2;
+            if (countLessEqual(M, mid) <= k) {
+                beg = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        return beg + 1;
+    }
+};
