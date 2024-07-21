@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<int>> solve(vector<vector<int>>& M) {
+        int rows = M.size();
+        int cols = M[0].size();
+        
+        // Create a transpose of the matrix
+        vector<vector<int>> transpose(cols, vector<int>(rows));
+        
+        // Fill the transpose with the columns of M
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                transpose[j][i] = M[i][j];
+            }
+        }
+        
+        // Sort each row of the transpose
+        for (auto& row : transpose) {
+            sort(row.begin(), row.end());
+        }
+        
+        // Create the result matrix
+        vector<vector<int>> result(rows, vector<int>(cols));
+        
+        // Fill the result matrix with the sorted rows from the transpose
+        for (int i = 0; i < cols; ++i) {
+            for (int j = 0; j < rows; ++j) {
+                result[j][i] = transpose[i][j];
+            }
+        }
+        
+        return result;
+    }
+};
