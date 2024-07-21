@@ -1,0 +1,33 @@
+
+class Solution {
+public:
+    vector<vector<int>> solve(vector<vector<int>>& grid) {
+        int n = grid.size();        // Number of rows
+        int m = grid[0].size();     // Number of columns
+        
+        // Step 1: Calculate maximum values for each column
+        vector<int> V(m, 0);
+        for (int j = 0; j < m; ++j) {
+            for (int i = 0; i < n; ++i) {
+                V[j] = max(V[j], grid[i][j]);
+            }
+        }
+        
+        // Step 2: Calculate maximum values for each row
+        vector<int> H(n, 0);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                H[i] = max(H[i], grid[i][j]);
+            }
+        }
+        
+        // Step 3: Update grid values
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                grid[j][i] = min(V[i], H[j]);
+            }
+        }
+        
+        return grid;
+    }
+};
