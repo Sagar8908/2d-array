@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>& A) {
+        int n = A.size();
+        int m = A[0].size();
+
+        // Memoization map for DP
+        unordered_map<string, int> memo;
+
+        function<int(int, int, int, int)> dp = [&](int i, int j, int d1, int d2) {
+            if (i < 0 || i >= n || j < 0 || j >= m) return INT_MIN;
+            string key = to_string(i) + "," + to_string(j) + "," + to_string(d1) + "," + to_string(d2);
+            if (memo.find(key) != memo.end()) return memo[key];
+            int result = max(dp(i + d1, j, d1, d2), dp(i, j + d2, d1, d2));
+            result = max(result, A[i][j]);
+            memo[key] = result;
+            return result;
+        };
+
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                for (int d1 : {-1, 1}) {
+                    for (int d2 : {-1, 1}) {
+                        ans = max(ans, A[i][j] + dp(i + d1, j + d2, d1, d2));
+                    }
+                }
+            }
+        }
+
+        return ans;
+    }
+};
