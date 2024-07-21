@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<string> solve(string s) {
+        // Split the input string by spaces
+        istringstream iss(s);
+        vector<string> parts;
+        string word;
+        while (iss >> word) {
+            parts.push_back(word);
+        }
+        
+        // Find the maximum length of the words
+        int m = 0;
+        for (const auto& part : parts) {
+            m = max(m, static_cast<int>(part.length()));
+        }
+        
+        vector<string> ans;
+        int n = parts.size();
+        
+        // Construct the vertical order
+        for (int j = 0; j < m; ++j) {
+            string col;
+            for (int i = 0; i < n; ++i) {
+                if (j < parts[i].length()) {
+                    col += parts[i][j];
+                } else {
+                    col += ' ';  // Fill with space if index is out of bounds
+                }
+            }
+            // Remove trailing spaces
+            while (!col.empty() && col.back() == ' ') {
+                col.pop_back();
+            }
+            ans.push_back(col);
+        }
+        
+        return ans;
+    }
+};
